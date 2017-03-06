@@ -1,6 +1,6 @@
 #include <glog/logging.h>
 
-#include "rsync.h"
+#include "include/rsync.h"
 #include "zp_data_server.h"
 #include "zp_data_partition.h"
 #include "zp_trysync_thread.h"
@@ -25,7 +25,7 @@ ZPTrySyncThread::~ZPTrySyncThread() {
 
 void ZPTrySyncThread::TrySyncTaskSchedule(Partition* partition) {
   slash::MutexLock l(&bg_thread_protector_);
-  bg_thread_->StartIfNeed();
+  bg_thread_->StartThread();
   TrySyncTaskArg *targ = new TrySyncTaskArg(this, partition);
   bg_thread_->Schedule(&DoTrySyncTask, static_cast<void*>(targ));
 }
@@ -54,7 +54,7 @@ void ZPTrySyncThread::TrySyncTask(Partition* partition) {
   }
 }
 
-bool ZPTrySyncThread::Send(const Partition* partition, pink::PbCli* cli) {
+bool ZPTrySyncThread::Send(const Partition* partition, pink::PinkCli* cli) {
   // Generate Request 
   client::CmdRequest request;
   client::CmdRequest_Sync* sync = request.mutable_sync();
@@ -86,7 +86,7 @@ bool ZPTrySyncThread::Send(const Partition* partition, pink::PbCli* cli) {
   return true;
 }
 
-bool ZPTrySyncThread::Recv(Partition* partition, pink::PbCli* cli, RecvResult* res) {
+bool ZPTrySyncThread::Recv(Partition* partition, pink::PinkCli* cli, RecvResult* res) {
   // Recv from client
   client::CmdResponse response;
   pink::Status result = cli->Recv(&response); 
@@ -110,12 +110,12 @@ bool ZPTrySyncThread::Recv(Partition* partition, pink::PbCli* cli, RecvResult* r
   return true;
 }
 
-pink::PbCli* ZPTrySyncThread::GetConnection(const Node& node) {
+pink::PinkCli* ZPTrySyncThread::GetConnection(const Node& node) {
   std::string ip_port = slash::IpPortString(node.ip, node.port);
-  pink::PbCli* cli;
+  pink::PinkCli* cli;
   auto iter = client_pool_.find(ip_port);
   if (iter == client_pool_.end()) {
-    cli = new pink::PbCli();
+    cli = pink::NewPbCli();
     cli->set_connect_timeout(1500);
     pink::Status s = cli->Connect(node.ip, node.port);
     if (!s.ok()) {
@@ -133,7 +133,7 @@ void ZPTrySyncThread::DropConnection(const Node& node) {
   std::string ip_port = slash::IpPortString(node.ip, node.port);
   auto iter = client_pool_.find(ip_port);
   if (iter != client_pool_.end()) {
-    pink::PbCli* cli = iter->second;
+    pink::PinkCli* cli = iter->second;
     delete cli;
     client_pool_.erase(iter);
   }
@@ -159,7 +159,7 @@ bool ZPTrySyncThread::SendTrySync(Partition *partition) {
   }
 
   Node master_node = partition->master_node();
-  pink::PbCli* cli = GetConnection(master_node);
+  pink::PinkCli* cli = GetConnection(master_node);
   DLOG(INFO) << "TrySync connect(" << partition->table_name() << "_"
     << partition->partition_id() << "_" << master_node.ip << ":"
     << master_node.port << ") " << (cli != NULL ? "ok" : "failed");

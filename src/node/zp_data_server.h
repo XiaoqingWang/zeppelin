@@ -7,16 +7,15 @@
 #include <unordered_set>
 #include <unordered_map>
 
-#include "bg_thread.h"
-#include "pb_conn.h"
-#include "zp_pb_cli.h"
-#include "holy_thread.h"
+#include "include/bg_thread.h"
+#include "include/pb_conn.h"
+#include "include/holy_thread.h"
 
-#include "slash_status.h"
-#include "slash_mutex.h"
+#include "include/slash_status.h"
+#include "include/slash_mutex.h"
 
-#include "nemo.h"
-#include "nemo_backupable.h"
+#include "include/nemo.h"
+#include "include/nemo_backupable.h"
 
 #include "zp_data_command.h"
 #include "zp_conf.h"
@@ -169,7 +168,7 @@ class ZPDataServer {
 
   // Binlog Send related
   slash::Mutex mutex_peers_;
-  std::unordered_map<std::string, ZPPbCli*> peers_;
+  std::unordered_map<std::string, pink::PinkCli*> peers_;
   ZPBinlogSendTaskPool binlog_send_pool_;
   std::vector<ZPBinlogSendThread*> binlog_send_workers_;
 

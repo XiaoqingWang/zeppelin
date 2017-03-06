@@ -5,8 +5,8 @@
 
 #include "client.pb.h"
 
-#include "pb_conn.h"
-#include "pink_thread.h"
+#include "include/pb_conn.h"
+#include "include/pink_thread.h"
 
 
 class ZPDataWorkerThread;

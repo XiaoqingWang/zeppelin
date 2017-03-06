@@ -3,9 +3,9 @@
 
 #include <queue>
 
-#include "holy_thread.h"
-#include "slash_mutex.h"
-#include "env.h"
+#include "include/holy_thread.h"
+#include "include/slash_mutex.h"
+#include "include/env.h"
 
 #include "zp_util.h"
 #include "zp_sync_conn.h"

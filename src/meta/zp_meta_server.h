@@ -4,9 +4,9 @@
 #include <stdio.h>
 #include <string>
 
-#include "slash_status.h"
-#include "slash_mutex.h"
-#include "floyd.h"
+#include "include/slash_status.h"
+#include "include/slash_mutex.h"
+#include "include/floyd.h"
 
 #include "zp_conf.h"
 #include "zp_const.h"
@@ -175,7 +175,7 @@ private:
   void CleanLeader();
 
   slash::Mutex leader_mutex_;
-  pink::PbCli* leader_cli_;
+  pink::PinkCli* leader_cli_;
   bool leader_first_time_;
   std::string leader_ip_;
   int leader_cmd_port_;

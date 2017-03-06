@@ -4,7 +4,7 @@
 #include <glog/logging.h>
 #include "zp_data_server.h"
 
-#include "slash_string.h"
+#include "include/slash_string.h"
 #include "nemo.h"
 
 extern ZPDataServer *zp_data_server;

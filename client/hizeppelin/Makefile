@@ -24,14 +24,17 @@ LIB_PATH = -L../output/lib/ \
 LIBS = -lzp \
 			 -lprotobuf \
 			 -lpink \
+			 -lslash \
 			 -lpthread
 
 INCLUDE_PATH = -I../output/include/ \
 		   -I../output/  \
 		   -I../third/linenoise/  \
 		   -I../third/  \
-		   -I$(THIRD_PATH)/pink/output/  \
-		   -I$(THIRD_PATH)/pink/output/include/
+		   -I$(THIRD_PATH)/pink/  \
+		   -I$(THIRD_PATH)/pink/include/ \
+		   -I$(THIRD_PATH)/slash/  \
+		   -I$(THIRD_PATH)/slash/include/
 
 .PHONY: all clean version
 

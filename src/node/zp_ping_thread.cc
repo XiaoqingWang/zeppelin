@@ -7,7 +7,7 @@
 extern ZPDataServer* zp_data_server;
 
 ZPPingThread::~ZPPingThread() {
-  should_exit_ = true;
+  set_running(false);
   pthread_join(thread_id(), NULL);
   delete cli_;
   LOG(INFO) << " Ping thread " << pthread_self() << " exit!!!";
@@ -65,7 +65,7 @@ void* ZPPingThread::ThreadMain() {
   struct timeval now, last_interaction;
   pink::Status s;
 
-  while (!should_exit_) {
+  while (running()) {
     zp_data_server->PickMeta();
     std::string meta_ip = zp_data_server->meta_ip();
     int meta_port = zp_data_server->meta_port() + kMetaPortShiftCmd;
@@ -80,7 +80,7 @@ void* ZPPingThread::ThreadMain() {
       cli_->set_recv_timeout(1000);
 
       // Send && Recv
-      while (!should_exit_) {
+      while (running()) {
         gettimeofday(&now, NULL);
         if (now.tv_sec - last_interaction.tv_sec > kNodeMetaTimeoutN) {
           LOG(WARNING) << "Ping meta ("<< meta_ip << ":" << meta_port << ") timeout, reconnect!";

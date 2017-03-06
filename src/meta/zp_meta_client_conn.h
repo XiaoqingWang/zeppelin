@@ -1,9 +1,8 @@
 #ifndef ZP_META_CLIENT_CONN_H
 #define ZP_META_CLIENT_CONN_H
 
-#include "pink_thread.h"
-#include "pb_conn.h"
-#include "pb_cli.h"
+#include "include/pink_thread.h"
+#include "include/pb_conn.h"
 
 #include "zp_meta.pb.h"
 #include "zp_meta_worker_thread.h"

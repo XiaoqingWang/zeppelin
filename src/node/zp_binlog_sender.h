@@ -6,10 +6,10 @@
 #include <string>
 #include <unordered_map>
 
-#include "env.h"
-#include "slash_status.h"
-#include "slash_mutex.h"
-#include "pink_thread.h"
+#include "include/env.h"
+#include "include/slash_status.h"
+#include "include/slash_mutex.h"
+#include "include/pink_thread.h"
 
 #include "client.pb.h"
 #include "zp_meta_utils.h"

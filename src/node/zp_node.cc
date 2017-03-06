@@ -8,7 +8,7 @@
 #include "zp_data_server.h"
 #include "zp_conf.h"
 
-#include "env.h"
+#include "include/env.h"
 
 ZpConf *g_zp_conf;
 ZPDataServer* zp_data_server;

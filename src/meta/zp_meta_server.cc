@@ -2,7 +2,7 @@
 #include <google/protobuf/text_format.h>
 #include <google/protobuf/repeated_field.h>
 
-#include "slash_string.h"
+#include "include/slash_string.h"
 #include "zp_meta_server.h"
 #include "zp_meta.pb.h"
 
@@ -719,7 +719,7 @@ bool ZPMetaServer::IsLeader() {
   // Connect to new leader
   CleanLeader();
   leader_first_time_ = true;
-  leader_cli_ = new pink::PbCli();
+  leader_cli_ = pink::NewPbCli();
   leader_ip_ = leader_ip;
   leader_cmd_port_ = leader_cmd_port;
   pink::Status s = leader_cli_->Connect(leader_ip_, leader_cmd_port_);

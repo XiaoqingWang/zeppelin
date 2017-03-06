@@ -4,7 +4,7 @@
 #include <fstream>
 #include <glog/logging.h>
 #include "zp_data_server.h"
-#include "rsync.h"
+#include "include/rsync.h"
 
 extern ZPDataServer* zp_data_server;
 

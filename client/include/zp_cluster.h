@@ -7,30 +7,31 @@
 
 #include <string>
 #include <vector>
-#include <map>
-#include <memory>
-#include <utility>
 #include <unordered_map>
 
 
-#include "include/pb_cli.h"
+#include "include/pink_cli.h"
 
 #include "include/zp_meta.pb.h"
 #include "include/client.pb.h"
 
 #include "include/zp_table.h"
 #include "include/zp_conn.h"
-#include "include/zp_const.h"
 
 namespace libzp {
 
+struct Options {
+  std::vector<Node> meta_addr;
+  Options() {
+  }
+};
 
 class Cluster {
- public :
-
+public:
   explicit Cluster(const Options& options);
-  explicit Cluster(const std::string& ip, const int port);
+  Cluster(const std::string& ip, int port);
   virtual ~Cluster();
+
   Status Connect();
 
   // data cmd
@@ -67,10 +68,8 @@ class Cluster {
   const Table::Partition* GetPartition(const std::string& table,
       const std::string& key);
 
- private :
-
-  void InitParam();
-  Node GetRandomMetaAddr();
+ private:
+  ZpCli* GetMetaConnection();
   Status GetDataMaster(const std::string& table,
       const std::string& key, Node* master);
 
@@ -78,7 +77,7 @@ class Cluster {
       const std::string& key, bool has_pull = false);
   Status TryDataRpc(const Node& node, int attempt = 0);
   Status SubmitMetaCmd(int attempt = 0);
-  Status ResetClusterMap(const ZPMeta::MetaCmdResponse_Pull& pull);
+  void ResetClusterMap(const ZPMeta::MetaCmdResponse_Pull& pull);
 
   // meta info
   int64_t epoch_;
@@ -116,6 +115,6 @@ class Client {
 };
 
 
-};  // namespace libzp
+} // namespace libzp
 
 #endif  // CLIENT_INCLUDE_ZP_CLUSTER_H_

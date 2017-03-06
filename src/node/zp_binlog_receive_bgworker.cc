@@ -11,13 +11,13 @@ ZPBinlogReceiveBgWorker::ZPBinlogReceiveBgWorker(int full) {
 }
 
 ZPBinlogReceiveBgWorker::~ZPBinlogReceiveBgWorker() {
-  bg_thread_->Stop();
+  bg_thread_->set_running(false);
   delete bg_thread_;
   LOG(INFO) << "A ZPBinlogReceiveBgWorker " << bg_thread_->thread_id() << " exit!!!";
 }
 
 void ZPBinlogReceiveBgWorker::AddTask(ZPBinlogReceiveTask *task) {
-  bg_thread_->StartIfNeed();
+  bg_thread_->StartThread();
   bg_thread_->Schedule(&DoBinlogReceiveTask, static_cast<void*>(task));
 }
 

@@ -2,7 +2,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include "env.h"
+#include "include/env.h"
 #include "zp_util.h"
 #include "zp_const.h"
 extern ZpConf* g_zp_conf;

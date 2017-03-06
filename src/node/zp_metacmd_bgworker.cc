@@ -9,20 +9,20 @@
 extern ZPDataServer* zp_data_server;
 
 ZPMetacmdBGWorker::ZPMetacmdBGWorker() {
-    cli_ = new pink::PbCli();
+    cli_ = pink::NewPbCli();
     cli_->set_connect_timeout(1500);
     bg_thread_ = new pink::BGThread();
   }
 
 ZPMetacmdBGWorker::~ZPMetacmdBGWorker() {
-  bg_thread_->Stop();
+  bg_thread_->set_running(false);
   delete bg_thread_;
   delete cli_;
   LOG(INFO) << "ZPMetacmd thread " << bg_thread_->thread_id() << " exit!!!";
 }
 
 void ZPMetacmdBGWorker::AddTask() {
-  bg_thread_->StartIfNeed();
+  bg_thread_->StartThread();
   bg_thread_->Schedule(&MetaUpdateTask, static_cast<void*>(this));
 }
 

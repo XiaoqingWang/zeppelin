@@ -4,9 +4,9 @@
 #include <queue>
 #include <unordered_map>
 
-#include "worker_thread.h"
-#include "slash_mutex.h"
-#include "env.h"
+#include "include/worker_thread.h"
+#include "include/slash_mutex.h"
+#include "include/env.h"
 
 #include "zp_util.h"
 #include "zp_command.h"

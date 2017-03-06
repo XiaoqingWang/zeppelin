@@ -17,8 +17,9 @@ OUTPUT := ./output/
 INCLUDE_PATH = -I./ \
 			   -I./include/ \
 			   -I$(THIRD_PATH)/glog/src/ \
-			   -I$(THIRD_PATH)/slash/output/include/ \
-			   -I$(THIRD_PATH)/pink/output/include/ \
+			   -I$(THIRD_PATH)/slash/include/ \
+			   -I$(THIRD_PATH)/slash/ \
+			   -I$(THIRD_PATH)/pink/include/ \
 			   -I$(THIRD_PATH)/pink/output/ 
 
 

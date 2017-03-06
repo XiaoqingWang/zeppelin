@@ -8,7 +8,7 @@
 #include "zp_data_dispatch_thread.h"
 #include <google/protobuf/text_format.h>
 
-#include "rsync.h"
+#include "include/rsync.h"
 
 ZPDataServer::ZPDataServer()
   : table_count_(0),
@@ -77,7 +77,7 @@ ZPDataServer::~ZPDataServer() {
 
   {
     slash::MutexLock l(&mutex_peers_);
-    std::unordered_map<std::string, ZPPbCli*>::iterator iter = peers_.begin();
+    std::unordered_map<std::string, pink::PinkCli*>::iterator iter = peers_.begin();
     while (iter != peers_.end()) {
       iter->second->Close();
       delete iter->second;
@@ -105,8 +105,8 @@ ZPDataServer::~ZPDataServer() {
   }
   LOG(INFO) << " All Tables exit!!!";
 
-  bgsave_thread_.Stop();
-  bgpurge_thread_.Stop();
+  bgsave_thread_.set_running(true);
+  bgpurge_thread_.set_running(true);
 
   DestoryCmdTable(cmds_);
   // TODO 
@@ -196,15 +196,15 @@ Status ZPDataServer::SendToPeer(const Node &node, const client::SyncRequest &msg
   std::string ip_port = slash::IpPortString(node.ip, node.port);
 
   slash::MutexLock pl(&mutex_peers_);
-  std::unordered_map<std::string, ZPPbCli*>::iterator iter = peers_.find(ip_port);
+  std::unordered_map<std::string, pink::PinkCli*>::iterator iter = peers_.find(ip_port);
   if (iter == peers_.end()) {
-    ZPPbCli *cli = new ZPPbCli();
+    pink::PinkCli *cli = pink::NewPbCli();
     res = cli->Connect(node.ip, node.port);
     if (!res.ok()) {
       delete cli;
       return Status::Corruption(res.ToString());
     }
-    iter = (peers_.insert(std::pair<std::string, ZPPbCli*>(ip_port, cli))).first;
+    iter = (peers_.insert(std::pair<std::string, pink::PinkCli*>(ip_port, cli))).first;
   }
   
   res = iter->second->Send(const_cast<client::SyncRequest*>(&msg));
@@ -291,13 +291,13 @@ Partition* ZPDataServer::GetTablePartitionById(const std::string &table_name, co
 
 void ZPDataServer::BGSaveTaskSchedule(void (*function)(void*), void* arg) {
   slash::MutexLock l(&bgsave_thread_protector_);
-  bgsave_thread_.StartIfNeed();
+  bgsave_thread_.StartThread();
   bgsave_thread_.Schedule(function, arg);
 }
 
 void ZPDataServer::BGPurgeTaskSchedule(void (*function)(void*), void* arg) {
   slash::MutexLock l(&bgpurge_thread_protector_);
-  bgpurge_thread_.StartIfNeed();
+  bgpurge_thread_.StartThread();
   bgpurge_thread_.Schedule(function, arg);
 }
 

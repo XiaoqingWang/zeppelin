@@ -4,9 +4,9 @@
 #include <string>
 #include <vector>
 
-#include "base_conf.h"
-#include "slash_string.h"
-#include "slash_mutex.h"
+#include "include/base_conf.h"
+#include "include/slash_string.h"
+#include "include/slash_mutex.h"
 
 #include "zp_const.h"
 

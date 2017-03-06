@@ -10,12 +10,12 @@ ZPMetaUpdateThread::ZPMetaUpdateThread() {
 }
 
 ZPMetaUpdateThread::~ZPMetaUpdateThread() {
-  worker_.Stop();
+  worker_.set_running(false);
 }
 
 void ZPMetaUpdateThread::ScheduleUpdate(ZPMetaUpdateTaskDeque task_deque) {
   ZPMetaUpdateArgs* arg = new ZPMetaUpdateArgs(this, task_deque);
-  worker_.StartIfNeed();
+  worker_.StartThread();
   LOG(INFO) << "Schedule to update thread worker, task num: " << task_deque.size();
   worker_.Schedule(&DoMetaUpdate, static_cast<void*>(arg));
 }

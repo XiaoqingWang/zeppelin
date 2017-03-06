@@ -2,7 +2,7 @@
 #define ZP_DATA_DISPATCH_THREAD_H
 
 #include "zp_data_worker_thread.h"
-#include "dispatch_thread.h"
+#include "include/dispatch_thread.h"
 #include "zp_data_client_conn.h"
 
 class ZPDataDispatchThread : public pink::DispatchThread<ZPDataClientConn> {

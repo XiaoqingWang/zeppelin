@@ -12,7 +12,7 @@ ZPBinlogReceiverThread::ZPBinlogReceiverThread(int port, int cron_interval)
 }
 
 ZPBinlogReceiverThread::~ZPBinlogReceiverThread() {
-  should_exit_ = true;
+  set_running(false);
   pthread_join(thread_id(), NULL);
 
   slash::MutexLock l(&stat_mu_);

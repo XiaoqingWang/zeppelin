@@ -8,7 +8,7 @@ ZPDataWorkerThread::ZPDataWorkerThread(int cron_interval)
     }
 
 ZPDataWorkerThread::~ZPDataWorkerThread() {
-  should_exit_ = true;
+  set_running(false);
   pthread_join(thread_id(), NULL);
 
   slash::MutexLock l(&stat_mu_);

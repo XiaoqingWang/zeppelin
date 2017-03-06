@@ -12,9 +12,9 @@
 # include <inttypes.h>
 #endif 
 
-#include "env.h"
-#include "slash_status.h"
-#include "slash_mutex.h"
+#include "include/env.h"
+#include "include/slash_status.h"
+#include "include/slash_mutex.h"
 #include "zp_const.h"
 
 using slash::Status;

@@ -4,10 +4,9 @@
 #include <glog/logging.h>
 #include <string>
 #include <unordered_map>
-#include "slash_string.h"
-#include "slash_status.h"
-#include "bg_thread.h"
-#include "pb_cli.h"
+#include "include/slash_string.h"
+#include "include/slash_status.h"
+#include "include/bg_thread.h"
 #include "zp_meta.pb.h"
 
 enum ZPMetaUpdateOP {

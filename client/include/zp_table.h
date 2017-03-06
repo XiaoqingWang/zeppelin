@@ -14,7 +14,7 @@
 #include <unordered_map>
 #include <utility>
 
-#include "include/pb_cli.h"
+#include "include/pink_cli.h"
 
 #include "include/zp_meta.pb.h"
 
@@ -98,14 +98,6 @@ class Table {
 };
 
 
-class Options {
- public :
-  Options() {
-  }
-  ~Options() {
-  }
-  std::vector<Node> meta_addr;
-};
 
 }  // namespace libzp
 #endif  // CLIENT_INCLUDE_ZP_TABLE_H_

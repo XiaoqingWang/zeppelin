@@ -6,9 +6,8 @@
 #include <unordered_set>
 #include <set>
 
-#include "pb_conn.h"
-#include "pb_cli.h"
-#include "holy_thread.h"
+#include "include/pb_conn.h"
+#include "include/holy_thread.h"
 #include "nemo.h"
 #include "nemo_backupable.h"
 

@@ -3,9 +3,9 @@
 
 #include <unordered_map>
 
-#include "env.h"
-#include "slash_mutex.h"
-#include "worker_thread.h"
+#include "include/env.h"
+#include "include/slash_mutex.h"
+#include "include/worker_thread.h"
 
 #include "zp_util.h"
 #include "zp_command.h"

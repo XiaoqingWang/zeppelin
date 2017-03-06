@@ -5,7 +5,7 @@
 #include <sstream>
 #include <glog/logging.h>
 
-#include "env.h"
+#include "include/env.h"
 
 #include "zp_meta_server.h"
 #include "zp_conf.h"

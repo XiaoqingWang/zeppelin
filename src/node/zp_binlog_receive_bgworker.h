@@ -1,6 +1,6 @@
 #ifndef ZP_BINLOG_RECEIVE_BGWORKER
 #define ZP_BINLOG_RECEIVE_BGWORKER
-#include "bg_thread.h"
+#include "include/bg_thread.h"
 #include "client.pb.h"
 #include "zp_command.h"
 

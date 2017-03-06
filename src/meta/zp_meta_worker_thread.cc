@@ -12,7 +12,7 @@ ZPMetaWorkerThread::ZPMetaWorkerThread(int cron_interval)
 }
 
 ZPMetaWorkerThread::~ZPMetaWorkerThread() {
-  should_exit_ = true;
+  set_running(false);
   pthread_join(thread_id(), NULL);
   LOG(INFO) << "A meta worker thread" << thread_id() << " exit!!!";
 }

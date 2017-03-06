@@ -1,9 +1,8 @@
 #ifndef ZP_TRYSYNC_THREAD_H
 #define ZP_TRYSYNC_THREAD_H
-#include "pb_cli.h"
-#include "status.h"
-#include "slash_mutex.h"
-#include "bg_thread.h"
+#include "include/pink_cli.h"
+#include "include/slash_mutex.h"
+#include "include/bg_thread.h"
 #include "zp_const.h"
 #include "zp_data_partition.h"
 
@@ -28,7 +27,7 @@ class ZPTrySyncThread {
   pink::BGThread* bg_thread_;
   static void DoTrySyncTask(void* arg);
   bool SendTrySync(Partition *partition);
-  bool Send(const Partition* partition, pink::PbCli* cli);
+  bool Send(const Partition* partition, pink::PinkCli* cli);
   
   struct RecvResult {
     client::StatusCode code;
@@ -36,7 +35,7 @@ class ZPTrySyncThread {
     uint32_t filenum;
     uint64_t offset;
   };
-  bool Recv(Partition* partition, pink::PbCli* cli, RecvResult* res);
+  bool Recv(Partition* partition, pink::PinkCli* cli, RecvResult* res);
 
   // Rsync related
   int rsync_flag_;
@@ -45,8 +44,8 @@ class ZPTrySyncThread {
   void RsyncUnref();
   
   // Connection related
-  std::map<std::string, pink::PbCli*> client_pool_;
-  pink::PbCli* GetConnection(const Node& node);
+  std::map<std::string, pink::PinkCli*> client_pool_;
+  pink::PinkCli* GetConnection(const Node& node);
   void DropConnection(const Node& node);
 };
 
