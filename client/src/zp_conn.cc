@@ -26,6 +26,7 @@ ZpCli::ZpCli(const Node& node)
 }
 
 ZpCli::~ZpCli() {
+  cli->Close();
   delete cli;
 }
 
