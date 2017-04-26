@@ -34,12 +34,7 @@ ZpCli::~ZpCli() {
 Status ZpCli::CheckTimeout() {
   uint64_t now = NowMicros();
   if ((now - lastchecktime) > kDataConnTimeout) {
-    Status s = cli->Connect(node.ip, node.port);
-    if (s.ok()) {
-      lastchecktime = now;
-      return Status::OK();
-    }
-    return s;
+    return Status::Timeout("client timeout");
   }
   lastchecktime = now;
   return Status::OK();
@@ -60,25 +55,22 @@ ConnectionPool::~ConnectionPool() {
 ZpCli* ConnectionPool::GetConnection(const Node& node) {
   std::map<Node, ZpCli*>::iterator it;
   it = conn_pool_.find(node);
-  if (it != conn_pool_.end()) {
-    Status s = it->second->CheckTimeout();
-    if (s.ok()) {
+  if (it != conn_pool_.end() ){
+    if (it->second->CheckTimeout().ok()) {
       return it->second;
-    } else {
-      delete it->second;
-      conn_pool_.erase(it);
-      return NULL;
     }
+    delete it->second;
+    conn_pool_.erase(it->first);
+  }
+
+  ZpCli* cli = new ZpCli(node);
+  Status s = cli->cli->Connect(node.ip, node.port);
+  if (s.ok()) {
+    conn_pool_.insert(std::make_pair(node, cli));
+    return cli;
   } else {
-    ZpCli* cli = new ZpCli(node);
-    Status s = cli->cli->Connect(node.ip, node.port);
-    if (s.ok()) {
-      conn_pool_.insert(std::make_pair(node, cli));
-      return cli;
-    } else {
-      delete cli;
-      return NULL;
-    }
+    delete cli;
+    return NULL;
   }
   return NULL;
 }
